@@ -1,0 +1,7 @@
+insert into lcperformance_product (name, type_expa, code_expa)
+values ('OGV','opportunity',1)
+,('OGT','opportunity',2)
+,('OGE','opportunity',5)
+,('IGV','person',1)
+,('IGT','person',2)
+,('IGE','person',5)
