@@ -8,7 +8,13 @@ from Expa.ExpaToken import ExpaToken
 @csrf_exempt
 def getToken (request):
     if request.method == "GET":
+        resultado = {}
         correo = request.GET.get('correo', None)
         passworrd = request.GET.get('passworrd', None)
         objExpaToken = ExpaToken(correo, passworrd)
-        return HttpResponse(json.dumps({"token": objExpaToken.getToken()}), content_type="application/json")
+        Token = objExpaToken.getToken()
+        if Token == None:
+            resultado = {'resultado' : False}
+        else:
+            resultado = {'resultado': True, "token": Token}
+        return HttpResponse(json.dumps(resultado), content_type="application/json")

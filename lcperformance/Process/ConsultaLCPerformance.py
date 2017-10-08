@@ -5,73 +5,6 @@ from Expa.ExpaToken import ExpaToken
 from Expa.AnalitycExpa import AnalitycExpa
 class ConsultaLCPerformance:
 
-    def consulta(self, dateInicial, dateFinal, lstProgram):
-        dti = datetime.strptime(dateInicial, "%Y-%m-%d")
-        dtf = datetime.strptime(dateFinal, "%Y-%m-%d")
-        lstResultado = {}
-        lstComite = comite.objects.all()
-        lstPrograma = product.objects.filter(id__in=lstProgram)
-        lstCustomerStage = custumer_stage.objects.all()
-        for lc in lstComite:
-            lstResultado[lc.name] = {}
-            for prod in lstPrograma:
-                lstResultado[lc.name][prod.name] = {}
-                for customer in lstCustomerStage:
-                    lstResultado[lc.name][prod.name][customer.name] = {
-                        "plan": 0,
-                        "cumplido": 0,
-                        "porcentajeCumplimiento": 0,
-                        "gab": 0,
-                        "crecimientoabs": 0,
-                        "crecimientorelativo": 0
-                    }
-                    lcPlan = target_product.objects.filter(code_comite=lc.id,
-                                                           code_product=prod.id,
-                                                           code_custumer_stage=customer.id,
-                                                           code_weekly_id__init_date__gte=dti,
-                                                           code_weekly_id__final_date__lte=dtf
-                                                           ).aggregate(Sum('target'))
-                    lcCumplido = cumplido.objects.filter(code_comite=lc.id,
-                                                         code_product=prod.id,
-                                                         code_custumer_stage=customer.id,
-                                                         date__range=((dti - timedelta(days=1)), (dtf + timedelta(days=1)))
-                                                         ).aggregate(Sum('quantity'))
-
-                    """lcAnterior = cumplido.objects.filter(code_comite=lc.id,
-                                                         code_product=prod.id,
-                                                         code_custumer_stage=customer.id,
-                                                         date__range=(dti - timedelta(year=1)
-                                                        , dtf - timedelta(year=1))
-                                                         ).aggregate(Sum('quantity'))"""
-
-
-
-                    if lcPlan["target__sum"] == None:
-                        lcPlan["target__sum"] = 0
-
-                    if lcCumplido["quantity__sum"] ==None:
-                        lcCumplido["quantity__sum"] = 0
-
-
-                    print(lcCumplido["quantity__sum"])
-
-                    print(lcPlan["target__sum"])
-                    if (lcPlan["target__sum"] != 0):
-                        porcentajeCumplimiento = (lcCumplido["quantity__sum"]*100)/lcPlan["target__sum"]
-                    else:
-                        porcentajeCumplimiento = lcCumplido["quantity__sum"]*100
-
-                    gab = lcPlan["target__sum"] - lcCumplido["quantity__sum"]
-
-                    lstResultado[lc.name][prod.name][customer.name] = {
-                        "plan": lcPlan["target__sum"],
-                        "cumplido": lcCumplido["quantity__sum"],
-                        "porcentajeCumplimiento": porcentajeCumplimiento,
-                        "gab": gab
-                    }
-
-        return lstResultado
-
     def consultaNueva(self, dateInicial, dateFinal, lstProgram):
         dti = datetime.strptime(dateInicial, "%Y-%m-%d")
         dtf = datetime.strptime(dateFinal, "%Y-%m-%d")
@@ -97,9 +30,14 @@ class ConsultaLCPerformance:
                     intCodeComite = jsonComite["key"]
                     lc = comite.objects.filter(code_expa=int(intCodeComite))[0]
                     lstResultado[lc.name] = {}
-                    lstResultado[lc.name][p.name] = {}
+                    lstResultado[lc.name]
                     for customer in lstCustomerStage:
-                        lstResultado[lc.name][p.name][customer.name] = {}
+                        if not customer.name in lstResultado[lc.name].keys():
+                            lstResultado[lc.name][customer.name] = {"plan": 0,
+                                                                "cumplido": 0,
+                                                                "cumplidoAnioanterior": 0
+                                                                }
+
                         lcPlan = target_product.objects.filter(code_comite=lc.id,
                                                                code_product=p.id,
                                                                code_custumer_stage=customer.id,
@@ -113,29 +51,13 @@ class ConsultaLCPerformance:
                         intCumpplido = self.__getCumplido(customer, jsonComite)
                         intCumpplidoAnterior = self.__getValorAnterior(customer, blResultadoAnioAnterior, jsonBucketsAnioAnterior, lc)
 
-                        if (intPlan != 0):
-                            porcentajeCumplimiento = (intCumpplido * 100) / intPlan
-                        else:
-                            porcentajeCumplimiento = intCumpplido * 100
+                        lstResultado[lc.name][customer.name]["plan"] = lstResultado[lc.name][customer.name]["plan"] + git
+                        lstResultado[lc.name][customer.name]["cumplido"] = lstResultado[lc.name][customer.name]["cumplido"] + intCumpplido
+                        lstResultado[lc.name][customer.name]["cumplidoAnioanterior"] = lstResultado[lc.name][customer.name]["cumplidoAnioanterior"] + intCumpplidoAnterior
 
-                        gab = intPlan - intCumpplido
-                        crecimientoabs = intCumpplido - intCumpplidoAnterior
-                        if intCumpplidoAnterior == 0:
-                            crecimeintorelativo = (intCumpplido / 1)*100
-                        else:
-                            crecimeintorelativo = (intCumpplido / intCumpplidoAnterior) * 100
 
-                        lstResultado[lc.name][p.name][customer.name] = {
-                            "plan": intPlan,
-                            "cumplido": intCumpplido,
-                            "porcentajeCumplimiento": porcentajeCumplimiento,
-                            "gab": gab,
-                            "cumplidoAnioanterior": intCumpplidoAnterior,
-                            "crecimientoabs": crecimientoabs,
-                            "crecimeintorelativo": crecimeintorelativo
 
-                        }
-        return  lstResultado
+        return lstResultado
 
 
     def __getValorAnterior(self, CustomerStage, blResultadoAnioAnterior, jsonBucketsAnioAnterior, lc):

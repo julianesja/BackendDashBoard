@@ -30,8 +30,7 @@ class ExpaToken():
         try:
 
             token = response.history[-1].cookies['expa_token']
-            print(token)
             return token
         except KeyError:
-            print("error")
+            return None
 

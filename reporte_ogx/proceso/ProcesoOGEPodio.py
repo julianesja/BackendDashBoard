@@ -32,7 +32,7 @@ class ProcesoOGEPodio():
             ],
         }
         objAplicacion = aplicacion.objects.filter(unique_name='mc_oge')[0]
-        objUsuario = user_register.objects.filter(user_expa='julian.estrada2@aiesec.net')[0]
+        objUsuario = user_register.objects.filter(user_expa='desarrollo.upb@aiesec.net')[0]
 
         ApiOgeManager = api.OAuthAppClient(objUsuario.id_cliente_podio
                                            , objUsuario.codigo_secreto_podio
