@@ -11,7 +11,7 @@ import json
 def openFechaUROGV(request):
     if request.method == "GET":
         fechaInicio = request.GET.get('fechaInicio', None)
-        fechaFin  = request.GET.get('fechaFin', None)
+        fechaFin = request.GET.get('fechaFin', None)
         comite = request.GET.get('comite', None)
         objProcesoOGVPodio = ProcesoOGVPodio()
         lstOpen = objProcesoOGVPodio.consultarMes(comite, fechaInicio, fechaFin)

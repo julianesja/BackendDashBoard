@@ -85,7 +85,7 @@ class ProcesoOGEPodio():
         data = Api.Item.filter(
             int(id_aplicacion), params
         )["items"]
-        fields = [self.objExtraerInformacionPodio.makeDict(item, nested=Api) for item in data]
+        fields = [self.objExtraerInformacionPodio.makeDict(item, nested=Api,lstFields=['howmet-2','university','created_on']) for item in data]
 
         return fields
 

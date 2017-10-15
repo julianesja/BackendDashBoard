@@ -46,6 +46,20 @@ def Programas(request):
         return JSONResponse(serializer.data)
 
 @csrf_exempt
+def ProgramasOgx(request):
+    if request.method == "GET":
+        lstProduct = product.objects.filter(type_expa='person')
+        serializer = ProgramSerializer(lstProduct, many=True)
+        return JSONResponse(serializer.data)
+
+@csrf_exempt
+def ProgramasIcx(request):
+    if request.method == "GET":
+        lstProduct = product.objects.filter(type_expa='﻿opportunity')
+        serializer = ProgramSerializer(lstProduct, many=True)
+        return JSONResponse(serializer.data)
+
+@csrf_exempt
 def OdStage(request):
     if request.method == "GET":
         lstOdStage = od_stage.objects.all()
@@ -56,7 +70,7 @@ def LcPerFormace(request):
     if request.method == "GET":
         date_initial = request.GET.get('date_initial', None)
         date_final = request.GET.get('date_final', None)
-        programs = str(request.GET.get('programs', None)).split(',')
+        programs = str(request.GET.get('programs', None))
         objConsultaLCPerformance = ConsultaLCPerformance()
-        lstResultad = objConsultaLCPerformance.consultaNueva(date_initial, date_final, programs)
+        lstResultad = objConsultaLCPerformance.consultaNueva(date_initial, date_final, [programs])
         return HttpResponse(json.dumps(lstResultad), content_type="application/json")

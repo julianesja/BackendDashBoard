@@ -35,17 +35,19 @@ class ProcesoOGVPodio():
                                            , objUsuario.codigo_secreto_podio
                                            , objAplicacion.podio_id
                                            , objAplicacion.code_secret)
+
         lstTotal = []
         request = 0
         while intNumeroLista >= 500:
-
             lstParcial = self.__ConsultarDatos(ApiOgvManager, params, objAplicacion.podio_id)
             lstTotal = lstTotal + lstParcial
             intNumeroLista = len(lstParcial)
             intOffSet = intOffSet + 500
             params["offset"] = intOffSet
-            request = request+1
+            request = request + 1
             print(request)
+
+
 
         for aplicante in lstTotal:
             values = aplicante["values"]
@@ -63,9 +65,7 @@ class ProcesoOGVPodio():
                 else:
                     lstResultadoOpenUniversidad[values["university"]] = 1
 
-
             if "created_on" in initial_revision.keys():
-                print(initial_revision["created_on"])
                 dt = datetime.strptime(initial_revision["created_on"], "%Y-%m-%d %H:%M:%S")
 
                 if str(dt.month) in lstResultadoOpenMes.keys():
@@ -84,7 +84,7 @@ class ProcesoOGVPodio():
         data = Api.Item.filter(
             int(id_aplicacion), params
         )["items"]
-        fields = [self.objExtraerInformacionPodio.makeDict(item, nested=Api) for item in data]
+        fields = [self.objExtraerInformacionPodio.makeDict(item, nested=Api, lstFields=['howmet-2','university','created_on']) for item in data]
 
         return fields
 
