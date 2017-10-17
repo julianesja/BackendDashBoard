@@ -51,7 +51,7 @@ class ConsultaLCPerformance:
                         intCumpplido = self.__getCumplido(customer, jsonComite)
                         intCumpplidoAnterior = self.__getValorAnterior(customer, blResultadoAnioAnterior, jsonBucketsAnioAnterior, lc)
 
-                        lstResultado[lc.name][customer.name]["plan"] = lstResultado[lc.name][customer.name]["plan"] + git
+                        lstResultado[lc.name][customer.name]["plan"] = lstResultado[lc.name][customer.name]["plan"] + intPlan
                         lstResultado[lc.name][customer.name]["cumplido"] = lstResultado[lc.name][customer.name]["cumplido"] + intCumpplido
                         lstResultado[lc.name][customer.name]["cumplidoAnioanterior"] = lstResultado[lc.name][customer.name]["cumplidoAnioanterior"] + intCumpplidoAnterior
 
