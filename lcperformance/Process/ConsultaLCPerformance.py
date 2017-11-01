@@ -28,32 +28,34 @@ class ConsultaLCPerformance:
             if(blResultado):
                 for jsonComite in jsonBuckets:
                     intCodeComite = jsonComite["key"]
-                    lc = comite.objects.filter(code_expa=int(intCodeComite))[0]
-                    lstResultado[lc.name] = {}
-                    lstResultado[lc.name]
-                    for customer in lstCustomerStage:
-                        if not customer.name in lstResultado[lc.name].keys():
-                            lstResultado[lc.name][customer.name] = {"plan": 0,
-                                                                "cumplido": 0,
-                                                                "cumplidoAnioanterior": 0
-                                                                }
+                    objlc = comite.objects.filter(code_expa=int(intCodeComite))
+                    if len(objlc) > 0:
+                        lc = objlc[0]
+                        lstResultado[lc.name] = {}
+                        lstResultado[lc.name]
+                        for customer in lstCustomerStage:
+                            if not customer.name in lstResultado[lc.name].keys():
+                                lstResultado[lc.name][customer.name] = {"plan": 0,
+                                                                    "cumplido": 0,
+                                                                    "cumplidoAnioanterior": 0
+                                                                    }
 
-                        lcPlan = target_product.objects.filter(code_comite=lc.id,
-                                                               code_product=p.id,
-                                                               code_custumer_stage=customer.id,
-                                                               code_weekly_id__init_date__gte=dti,
-                                                               code_weekly_id__final_date__lte=dtf
-                                                               ).aggregate(Sum('target'))
-                        if lcPlan["target__sum"] == None:
-                            lcPlan["target__sum"] = 0
+                            lcPlan = target_product.objects.filter(code_comite=lc.id,
+                                                                   code_product=p.id,
+                                                                   code_custumer_stage=customer.id,
+                                                                   code_weekly_id__init_date__gte=dti,
+                                                                   code_weekly_id__final_date__lte=dtf
+                                                                   ).aggregate(Sum('target'))
+                            if lcPlan["target__sum"] == None:
+                                lcPlan["target__sum"] = 0
 
-                        intPlan = int(lcPlan["target__sum"])
-                        intCumpplido = self.__getCumplido(customer, jsonComite)
-                        intCumpplidoAnterior = self.__getValorAnterior(customer, blResultadoAnioAnterior, jsonBucketsAnioAnterior, lc)
+                            intPlan = int(lcPlan["target__sum"])
+                            intCumpplido = self.__getCumplido(customer, jsonComite)
+                            intCumpplidoAnterior = self.__getValorAnterior(customer, blResultadoAnioAnterior, jsonBucketsAnioAnterior, lc)
 
-                        lstResultado[lc.name][customer.name]["plan"] = lstResultado[lc.name][customer.name]["plan"] + intPlan
-                        lstResultado[lc.name][customer.name]["cumplido"] = lstResultado[lc.name][customer.name]["cumplido"] + intCumpplido
-                        lstResultado[lc.name][customer.name]["cumplidoAnioanterior"] = lstResultado[lc.name][customer.name]["cumplidoAnioanterior"] + intCumpplidoAnterior
+                            lstResultado[lc.name][customer.name]["plan"] = lstResultado[lc.name][customer.name]["plan"] + intPlan
+                            lstResultado[lc.name][customer.name]["cumplido"] = lstResultado[lc.name][customer.name]["cumplido"] + intCumpplido
+                            lstResultado[lc.name][customer.name]["cumplidoAnioanterior"] = lstResultado[lc.name][customer.name]["cumplidoAnioanterior"] + intCumpplidoAnterior
 
 
 
