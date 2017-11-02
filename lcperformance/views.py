@@ -55,7 +55,7 @@ def ProgramasOgx(request):
 @csrf_exempt
 def ProgramasIcx(request):
     if request.method == "GET":
-        lstProduct = product.objects.filter(type_expa='﻿opportunity')
+        lstProduct = product.objects.filter(type_expa='opportunity')
         serializer = ProgramSerializer(lstProduct, many=True)
         return JSONResponse(serializer.data)
 

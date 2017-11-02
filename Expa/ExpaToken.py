@@ -34,3 +34,6 @@ class ExpaToken():
         except KeyError:
             return None
 
+objExpaToken = ExpaToken("dev.colombia@ai.aiesec.org", "ITcolombia1718")
+
+print(objExpaToken.getToken())
