@@ -28,12 +28,11 @@ class ExpaToken():
         params['authenticity_token'] = token2
         response = s.post(AUTH_URL, data=params)
         try:
-
-            token = response.history[-1].cookies['expa_token']
-            return token
+            if len(response.history) > 0:
+                token = response.history[-1].cookies['expa_token']
+                return token
+            else:
+                return None
         except KeyError:
             return None
 
-objExpaToken = ExpaToken("dev.colombia@ai.aiesec.org", "ITcolombia1718")
-
-print(objExpaToken.getToken())

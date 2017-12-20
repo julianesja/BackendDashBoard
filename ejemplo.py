@@ -1,5 +1,14 @@
 from datetime import datetime
 
-dt = datetime.strptime("2017-09-07 03:13:00", "%Y-%m-%d %I:%M:%S")
+fechaFinal = "2017-12-26T00:00:00Z"
+fechaInicio = "2017-05-15T00:00:00Z"
+vecfecha = fechaFinal.split('T')
+ahora = datetime.now()
 
-print(dt)
+dtFechaFinal = datetime.strptime(fechaFinal.split("T")[0], "%Y-%m-%d")
+dtFechaInicial = datetime.strptime(fechaInicio.split("T")[0], "%Y-%m-%d")
+
+if(dtFechaFinal < ahora):
+    print("mostrar")
+
+

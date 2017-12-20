@@ -22,4 +22,5 @@ urlpatterns = [
     url(r'^lcperformance/', include('lcperformance.urls')),
     url(r'^administration/', include('administration.urls')),
     url(r'^reporte_ogx/', include('reporte_ogx.urls')),
+    url(r'^estandares_tools/', include('standarsTools.urls')),
 ]

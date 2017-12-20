@@ -1,0 +1,41 @@
+
+<!DOCTYPE html>
+{% load staticfiles %}
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>{% block title %} Standars Tools {% endblock %}</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/jszip-2.5.0/dt-1.10.16/b-1.5.0/b-colvis-1.5.0/b-flash-1.5.0/b-html5-1.5.0/b-print-1.5.0/sc-1.4.3/datatables.min.css"/>
+    <link rel="stylesheet" href="{% static 'css/cargando.css' %}">
+    <link rel="stylesheet" href="{% static 'plugin/sweetalert/sweetalert.css' %}">
+    {% block style %}
+    {% endblock %}
+</head>
+<body>
+    <nav>
+        <div class="nav-wrapper">
+            <a href="#" class="brand-logo right">Standars Tools</a>
+            <ul id="nav-mobile" class="left hide-on-med-and-down">
+                <li id="nvSeguimiento"><a href="/estandares_tools/seguimiento_index">Seguimiento</a></li>
+                <li id="nvFinishSinStandar"><a href="/estandares_tools/finish_sin_standar">Finish sin standars</a></li>
+                <li><a href="/estandares_tools/salir">Salir</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    {%block content%}
+
+    {% endblock %}
+
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
+    <script src="{% static 'plugin/sweetalert/sweetalert.js' %}"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.32/pdfmake.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.32/vfs_fonts.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/v/dt/jszip-2.5.0/dt-1.10.16/b-1.5.0/b-colvis-1.5.0/b-flash-1.5.0/b-html5-1.5.0/b-print-1.5.0/sc-1.4.3/datatables.min.js"></script>
+
+    {% block script %}
+    {% endblock %}
+</body>
+</html>

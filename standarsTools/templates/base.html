@@ -1,0 +1,27 @@
+
+<!DOCTYPE html>
+{% load staticfiles %}
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>{% block title %} Standars Tools {% endblock %}</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css">
+   <link rel="stylesheet" href="{% static 'css/cargando.css' %}">
+    <link rel="stylesheet" href="{% static 'plugin/sweetalert/sweetalert.css' %}">
+
+    {% block style %}
+    {% endblock %}
+</head>
+<body>
+
+    {%block content%}
+
+    {% endblock %}
+
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
+     <script src="{% static 'plugin/sweetalert/sweetalert.js' %}"></script>
+    {% block script %}
+    {% endblock %}
+</body>
+</html>
